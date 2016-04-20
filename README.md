@@ -7,6 +7,6 @@ Deploy config file for Accounting Service
 
 # consumer.yaml
 
-- Contains for response and request for consumer service
+- Contains response and request for consumer service
 
  
