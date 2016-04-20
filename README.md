@@ -1,4 +1,4 @@
-Deploy config file for Accounting Service
+Config files for Accounting Service
 
 # mountebank.py 
 
