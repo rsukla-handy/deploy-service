@@ -1,0 +1,32 @@
+import pytest
+import yaml
+import requests
+from urlparse import urljoin
+​
+​
+def load_yaml_file():
+    test_set = []
+    file_path="/Users/ivargas/development/repos/test-automation/tests/services/accounting/"
+    yaml_file = open(file_path + 'test_accounting.yml', 'r')
+    list_of_commands = yaml.safe_load_all(yaml_file)
+    for command in list_of_commands:
+        test_set.append((command['request'], command['response'], command['name']))
+    return test_set
+​
+test_data = load_yaml_file()
+test_inputs = [(test[0], test[1]) for test in test_data]
+test_names = [test[2] for test in test_data]
+​
+​
+@pytest.mark.parametrize("requested, expected_response", test_inputs, ids=test_names)
+def test_accounting_service(requested, expected_response):
+    method = requested['method']
+    endpoint = requested['endpoint']
+    payload = requested['payload']
+    url = urljoin('http://192.168.99.100/', endpoint)
+    response = requests.request(method.upper(), url, json=payload)
+    print response.request.url
+    print response.status_code
+    print response.content
+    assert response.status_code == expected_response['status_code']
+    assert response.content == expected_response['content']

@@ -1,0 +1,28 @@
+---
+  port: 5555
+  protocol: "http"
+  stubs:
+    -
+      responses:
+        -
+          is:
+            statusCode: 200
+            headers:
+              bonzo: "dog"
+            body: "{'booking': {'provider_id': 100, 'credit_amount': 8000, 'user_id': 1, 'cancelled_at': '2016-04-15T12:29:42+00:00', 'date_end': '2016-04-15T12:29:42+00:00', 'date_start': '2016-04-15T12:29:42+00:00', 'id': 100}, 'currency_code': 'USD'}"
+        -
+          is:
+            statusCode: 200
+            headers:
+              bonzo: "dog"
+            body:"{'answer': 'get another job'}"
+      predicates:
+        -
+          and:
+            -
+              equals:
+                path: "/transactions_by_transactor"
+                body: "{'transactor_id': 123123123, 'transactor_type': 'User'}"
+                method: "POST"
+                headers:
+                  Content-Type: "application/json"
